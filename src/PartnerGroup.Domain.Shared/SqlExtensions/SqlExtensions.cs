@@ -13,6 +13,9 @@ namespace PartnerGroup.Domain.Shared.SqlExtensions
             var command = connection.CreateCommand();
             command.CommandText = DynamicQuery.InsertQuery(tableName, param);
 
+            if (connection.State != ConnectionState.Open)
+                command.Connection.Open();
+
             CreateCommandWithParameters(command, param);
 
             command.ExecuteNonQuery();
@@ -22,6 +25,9 @@ namespace PartnerGroup.Domain.Shared.SqlExtensions
         {
             var command = connection.CreateCommand();
             command.CommandText = DynamicQuery.UpdateQuery(tableName, param);
+
+            if (connection.State != ConnectionState.Open)
+                command.Connection.Open();
 
             CreateCommandWithParameters(command, param);
 

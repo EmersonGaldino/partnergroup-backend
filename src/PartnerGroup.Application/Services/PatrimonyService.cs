@@ -14,7 +14,7 @@ namespace PartnerGroup.Application.Services
     public class PatrimonyService : Notifiable, IPatrimonyService
     {
         private readonly IBrandRepository _repositoryBrand;
-        private readonly IPatrimonyRepository _repositoryPatrimony;   
+        private readonly IPatrimonyRepository _repositoryPatrimony;
         public PatrimonyService(IBrandRepository repositoryBrand, IPatrimonyRepository repositoryPatrimony)
         {
             _repositoryBrand = repositoryBrand;
@@ -42,7 +42,26 @@ namespace PartnerGroup.Application.Services
 
         public PatrimonyDto NewPatrimony(PatrimonyCommand command)
         {
-            throw new System.NotImplementedException();
+            if (!command.Validate())
+            {
+                AddNotifications(command.Notifications);
+                return null;
+            }
+
+            var verifyBrand = _repositoryBrand.GetById(command.BrandId);
+            Assert.AssertArgumentNotNull(verifyBrand, "Nenhuma marca encontrada!");
+
+            if (!Assert.IsValid())
+            {
+                AddNotifications(Assert.ListNotifications());
+                return null;
+            }
+
+            var newPatrimony = new PatrimonyEntity(verifyBrand.Id, command.Name, command.Description);
+            _repositoryPatrimony.Add(newPatrimony);
+
+            var lastPatrimony = Patrimonies()?.LastOrDefault();
+            return lastPatrimony;
         }
 
         public PatrimonyDto UpdatePatrimony(long id, PatrimonyCommand command)

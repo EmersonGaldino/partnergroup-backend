@@ -6,7 +6,7 @@ namespace PartnerGroup.Application.Command.Patrimony
 {
     public class PatrimonyCommand : Notifiable, ICommandBase
     {
-        public string BrandId { get; set; }
+        public long BrandId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

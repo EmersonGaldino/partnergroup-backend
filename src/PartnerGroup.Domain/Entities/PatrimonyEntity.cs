@@ -10,7 +10,7 @@ namespace PartnerGroup.Domain.Entities
             this.BrandId = brandId;
             this.Patrimony = patrimony;
             this.Description = description;
-            this.NumberTumble = Guid.NewGuid().ToString().Substring(0, 6);
+            this.NumberTumble = Guid.NewGuid().ToString().Substring(0, 6).ToUpper();
         }
 
         public PatrimonyEntity(BrandEntity brand, long id, long brandId, string patrimony, string description, string numberTumble,
