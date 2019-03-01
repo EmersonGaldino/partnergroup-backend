@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PartnerGroup.Domain.Shared\PartnerGroup.Domain.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,12 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PartnerGroup.Application\PartnerGroup.Application.csproj" />
+    <ProjectReference Include="..\PartnerGroup.IoC\PartnerGroup.IoC.csproj" />
   </ItemGroup>
 
 </Project>

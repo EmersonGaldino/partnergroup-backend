@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PartnerGroup.Domain.Shared\PartnerGroup.Domain.Shared.csproj" />
+    <ProjectReference Include="..\PartnerGroup.Domain\PartnerGroup.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
