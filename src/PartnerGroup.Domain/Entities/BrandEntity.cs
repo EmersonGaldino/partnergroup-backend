@@ -1,4 +1,5 @@
-﻿using PartnerGroup.Domain.Shared.ValueObjects;
+﻿using System;
+using PartnerGroup.Domain.Shared.ValueObjects;
 
 namespace PartnerGroup.Domain.Entities
 {
@@ -7,6 +8,15 @@ namespace PartnerGroup.Domain.Entities
         public BrandEntity(string brand)
         {
             Brand = brand;
+        }
+
+        public BrandEntity(long id, string brand, DateTime dateRegister, DateTime? dateChange, bool active)
+        {
+            this.SetId(id);
+            this.Brand = brand;
+            this.SetDateRegister(dateRegister);
+            this.SetDateChange(dateChange);
+            this.SetActive(active);
         }
 
         public string Brand { get; private set; }

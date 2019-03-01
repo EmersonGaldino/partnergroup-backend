@@ -18,11 +18,25 @@ namespace PartnerGroup.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewBrand([FromBody] NewBrandCommand command)
+        public IActionResult NewBrand([FromBody] BrandCommand command)
         {
             try
             {
                 var result = _service.NewBrand(command);
+                return Response(result, _service.Notifications);
+            }
+            catch (Exception exception)
+            {
+                return Error(exception);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateBrand([FromQuery] long id, [FromBody] BrandCommand command)
+        {
+            try
+            {
+                var result = _service.UpdateBrand(id, command);
                 return Response(result, _service.Notifications);
             }
             catch (Exception exception)

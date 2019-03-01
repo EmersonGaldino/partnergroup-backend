@@ -1,42 +1,54 @@
-﻿using PartnerGroup.Domain.Contracts;
+﻿using System.Data;
+using System.Data.SqlClient;
 using PartnerGroup.Domain.Entities;
-using PartnerGroup.Domain.Shared.Contracts.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+using PartnerGroup.Domain.Contracts;
+using PartnerGroup.Domain.Converters;
+using PartnerGroup.Domain.Shared.Repositories;
 
 namespace PartnerGroup.DataAccess.Repositories
 {
-    public class BrandRepository : IRepositoryBase<BrandEntity>, IBrandRepository
+    public class BrandRepository : RepositoryBase<BrandEntity>, IBrandRepository
     {
-        public void Add(BrandEntity item)
+        public BrandRepository() : base("Brand") { }
+
+        public BrandEntity GetById(long id)
         {
-            throw new NotImplementedException();
+            BrandEntity brand = null;
+            var command = _connection.CreateCommand();
+            command.CommandText = $"SELECT * FROM {_tableName} (NOLOCK) WHERE Id = Id";
+
+            command.Parameters.Add(new SqlParameter("Id", id));
+            if (_connection.State != ConnectionState.Open)
+                command.Connection.Open();
+
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                brand = reader.ToEntity();
+            }
+
+            reader.Dispose();
+            return brand;
         }
 
-        public IEnumerable<BrandEntity> GetAll()
+        public BrandEntity GetByName(string name)
         {
-            throw new NotImplementedException();
-        }
+            BrandEntity brand = null;
+            var command = _connection.CreateCommand();
+            command.CommandText = $"SELECT * FROM {_tableName} (NOLOCK) WHERE Brand = @Branch";
 
-        public IEnumerable<BrandEntity> GetAll(Expression<Func<BrandEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
+            command.Parameters.Add(new SqlParameter("Branch", name));
+            if (_connection.State != ConnectionState.Open)
+                command.Connection.Open();
 
-        public BrandEntity GetById<T>(T id)
-        {
-            throw new NotImplementedException();
-        }
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                brand = reader.ToEntity();
+            }
 
-        public void Remove<T>(T id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(BrandEntity item)
-        {
-            throw new NotImplementedException();
+            reader.Dispose();
+            return brand;
         }
     }
 }

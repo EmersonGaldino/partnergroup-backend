@@ -4,7 +4,7 @@ using PartnerGroup.Domain.Shared.Commands;
 
 namespace PartnerGroup.Application.Command.Brand
 {
-    public class NewBrandCommand : Notifiable, ICommandBase
+    public class BrandCommand : Notifiable, ICommandBase
     {
         public string Name { get; set; }
 

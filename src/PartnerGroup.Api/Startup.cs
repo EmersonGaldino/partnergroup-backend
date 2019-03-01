@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using PartnerGroup.IoC.NativeInjector;
 using Microsoft.Extensions.Configuration;
+using PartnerGroup.Domain.Shared.AppSettings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PartnerGroup.Api
@@ -21,6 +23,7 @@ namespace PartnerGroup.Api
             services.AddCors();
             services.RegisterDependency();
 
+            ConfigureSettings();
             ConfigureSwagger(services);
         }
 
@@ -40,6 +43,20 @@ namespace PartnerGroup.Api
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Partner Group - V1"); });
+        }
+
+        private void ConfigureSettings()
+        {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
+            {
+                Settings.ClientId = Environment.GetEnvironmentVariable("CLIENT_ID");
+                Settings.ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+            }
+            else
+            {
+                Settings.ClientId = Environment.GetEnvironmentVariable("CLIENT_ID");
+                Settings.ConnectionString = Configuration.GetConnectionString("CONNECTION_STRING");
+            }
         }
     }
 }

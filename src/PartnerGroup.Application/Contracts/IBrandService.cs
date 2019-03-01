@@ -9,6 +9,7 @@ namespace PartnerGroup.Application.Contracts
     {
         BrandDto Brand(long id);
         IEnumerable<BrandDto> Brands();
-        BrandDto NewBrand(NewBrandCommand command);
+        BrandDto NewBrand(BrandCommand command);
+        BrandDto UpdateBrand(long id, BrandCommand command);
     }
 }

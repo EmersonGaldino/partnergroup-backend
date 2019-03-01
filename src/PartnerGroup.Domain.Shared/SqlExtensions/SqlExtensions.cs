@@ -1,28 +1,51 @@
-﻿using System.Data;
+﻿using System;
+using System.Linq;
+using System.Data;
+using System.Reflection;
+using System.Data.SqlClient;
 
 namespace PartnerGroup.Domain.Shared.SqlExtensions
 {
     public static class DapperExtensions
     {
-        //public static void Insert(this IDbConnection connection, string tableName, object param)
-        //{
-        //    var command = connection.CreateCommand();
-        //    command.CommandText = DynamicQuery.InsertQuery(tableName, param);
+        public static void Insert(this IDbConnection connection, string tableName, object param)
+        {
+            var command = connection.CreateCommand();
+            command.CommandText = DynamicQuery.InsertQuery(tableName, param);
 
-        //    command.Connection.Open();
+            if (connection.State != ConnectionState.Open)
+                command.Connection.Open();
 
-        //    command.Parameters.
+            CreateCommandWithParameters(command, param);
 
+            command.ExecuteNonQuery();
+        }
 
+        public static void Update(this IDbConnection connection, string tableName, object param)
+        {
+            var command = connection.CreateCommand();
+            command.CommandText = DynamicQuery.UpdateQuery(tableName, param);
 
+            if (connection.State != ConnectionState.Open)
+                command.Connection.Open();
 
+            CreateCommandWithParameters(command, param);
 
-        //    SqlMapper.Execute(c DynamicQuery.InsertQuery(tableName, param), param);
-        //}
+            command.ExecuteNonQuery();
+        }
 
-        //public static void Update(this IDbConnection cnn, string tableName, object param)
-        //{
-        //    SqlMapper.Execute(cnn, DynamicQuery.UpdateQuery(tableName, param), param);
-        //}
+        private static IDbCommand CreateCommandWithParameters(IDbCommand command, object @params)
+        {
+            PropertyInfo[] propsProperties = @params.GetType().GetProperties();
+            string[] properties = propsProperties.Select(p => p.Name).ToArray();
+
+            foreach (var property in properties)
+            {
+                var propertyValue = @params.GetType().GetProperty(property).GetValue(@params, null);
+                command.Parameters.Add(new SqlParameter(property, propertyValue ?? DBNull.Value));
+            }
+
+            return command;
+        }
     }
 }
