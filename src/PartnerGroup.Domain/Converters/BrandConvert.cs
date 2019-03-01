@@ -6,7 +6,7 @@ namespace PartnerGroup.Domain.Converters
 {
     public static class BrandConvert
     {
-        public static BrandEntity ToEntity(this IDataReader reader)
+        public static BrandEntity ToBrandEntity(this IDataReader reader)
         {
             var brand = new BrandEntity((long)reader["Id"],
                         (string)reader["Brand"],

@@ -2,14 +2,17 @@
 using PartnerGroup.Application.Dtos.Brand;
 using PartnerGroup.Domain.Shared.Services;
 using PartnerGroup.Application.Command.Brand;
+using PartnerGroup.Application.Dtos.Patrimony;
 
 namespace PartnerGroup.Application.Contracts
 {
     public interface IBrandService : IServiceBase
     {
-        BrandDto Brand(long id);
         IEnumerable<BrandDto> Brands();
+        BrandDto Brand(long id);
+        IEnumerable<PatrimonyDto> PatrimonyByBrandId(long brandId);
         BrandDto NewBrand(BrandCommand command);
         BrandDto UpdateBrand(long id, BrandCommand command);
+        BrandDto DeleteBrand(long id);
     }
 }

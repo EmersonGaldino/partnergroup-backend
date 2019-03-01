@@ -9,6 +9,7 @@ namespace PartnerGroup.IoC.Containers
         public static void AddDependency(IServiceCollection services)
         {
             services.AddTransient<IBrandRepository, BrandRepository>();
+            services.AddTransient<IPatrimonyRepository, PatrimonyRepository>();
         }
     }
 }

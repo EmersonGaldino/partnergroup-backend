@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 using PartnerGroup.Domain.Entities;
 using PartnerGroup.Domain.Contracts;
 using PartnerGroup.Domain.Converters;
@@ -15,7 +16,7 @@ namespace PartnerGroup.DataAccess.Repositories
         {
             BrandEntity brand = null;
             var command = _connection.CreateCommand();
-            command.CommandText = $"SELECT * FROM {_tableName} (NOLOCK) WHERE Id = Id";
+            command.CommandText = $"SELECT * FROM {_tableName} WHERE Id = @Id";
 
             command.Parameters.Add(new SqlParameter("Id", id));
             if (_connection.State != ConnectionState.Open)
@@ -24,7 +25,7 @@ namespace PartnerGroup.DataAccess.Repositories
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                brand = reader.ToEntity();
+                brand = reader.ToBrandEntity();
             }
 
             reader.Dispose();
@@ -35,7 +36,7 @@ namespace PartnerGroup.DataAccess.Repositories
         {
             BrandEntity brand = null;
             var command = _connection.CreateCommand();
-            command.CommandText = $"SELECT * FROM {_tableName} (NOLOCK) WHERE Brand = @Branch";
+            command.CommandText = $"SELECT * FROM {_tableName} WHERE Brand = @Branch";
 
             command.Parameters.Add(new SqlParameter("Branch", name));
             if (_connection.State != ConnectionState.Open)
@@ -44,11 +45,30 @@ namespace PartnerGroup.DataAccess.Repositories
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                brand = reader.ToEntity();
+                brand = reader.ToBrandEntity();
             }
 
             reader.Dispose();
             return brand;
+        }
+
+        public IEnumerable<BrandEntity> Brands()
+        {
+            IList<BrandEntity> brands = new List<BrandEntity>();
+            var command = _connection.CreateCommand();
+            command.CommandText = $"SELECT * FROM {_tableName} (NOLOCK)";
+
+            if (_connection.State != ConnectionState.Open)
+                command.Connection.Open();
+
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                brands.Add(reader.ToBrandEntity());
+            }
+
+            reader.Dispose();
+            return brands;
         }
     }
 }
