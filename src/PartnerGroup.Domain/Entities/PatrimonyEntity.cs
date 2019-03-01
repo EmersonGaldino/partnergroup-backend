@@ -33,5 +33,14 @@ namespace PartnerGroup.Domain.Entities
         public string Patrimony { get; private set; }
         public string Description { get; private set; }
         public string NumberTumble { get; private set; }
+
+        public void Update(long brandId, string patrimony, string description)
+        {
+            this.BrandId = brandId;
+            this.Patrimony = patrimony;
+            this.Description = description;
+
+            base.UpdateDataChange();
+        }
     }
 }

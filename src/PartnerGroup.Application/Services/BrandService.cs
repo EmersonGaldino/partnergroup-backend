@@ -73,11 +73,11 @@ namespace PartnerGroup.Application.Services
         public BrandDto UpdateBrand(long id, BrandCommand command)
         {
             var brand = _repositoryBrand.GetById(id);
-            var verifyBranch = _repositoryBrand.GetByName(command.Name);
+            var verifyBrand = _repositoryBrand.GetByName(command.Name);
             Assert.AssertArgumentNotNull(brand, "Nenhuma marca encontrada!");
 
-            if (verifyBranch != null)
-                Assert.AssertArgumentEquals(brand?.Id, verifyBranch?.Id, "Marca já cadastrada!");
+            if (verifyBrand != null)
+                Assert.AssertArgumentEquals(brand?.Id, verifyBrand?.Id, "Marca já cadastrada!");
 
             if (!Assert.IsValid())
             {
@@ -94,7 +94,9 @@ namespace PartnerGroup.Application.Services
         public BrandDto DeleteBrand(long id)
         {
             var brand = _repositoryBrand.GetById(id);
+            var patrimonies = _repositoryPatrimony.PatrimonyByBrandId(id).Any();
             Assert.AssertArgumentNotNull(brand, "Nenhuma marca encontrada!");
+            Assert.AssertArgumentNotEquals(patrimonies, true, "Essa marca não pode ser excluída: Pode ter um ou mais patrimônios cadastrados com a mesma!");
 
             if (!Assert.IsValid())
             {

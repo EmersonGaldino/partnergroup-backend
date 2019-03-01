@@ -9,7 +9,6 @@ namespace PartnerGroup.Domain.Shared.ValueObjects
         public DateTime? DateChange { get; private set; } = null;
         public bool Active { get; private set; } = true;
 
-
         protected virtual void UpdateDataChange() => this.DateChange = DateTime.Now.GetBrazilianTime();
         protected virtual void ChangeStatus(bool status) => this.Active = status;
         protected virtual void CreateId(TId id) => base.SetId(id);

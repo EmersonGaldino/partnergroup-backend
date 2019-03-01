@@ -6,6 +6,8 @@ namespace PartnerGroup.Domain.Contracts
 {
     public interface IPatrimonyRepository : IRepositoryBase<PatrimonyEntity>
     {
+        PatrimonyEntity PatrimonyById(long id);
+        IEnumerable<PatrimonyEntity> Patrimonies();
         IEnumerable<PatrimonyEntity> PatrimonyByBrandId(long brandId);
     }
 }

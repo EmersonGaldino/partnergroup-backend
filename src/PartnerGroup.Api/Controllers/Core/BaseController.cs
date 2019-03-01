@@ -13,13 +13,9 @@ namespace PartnerGroup.Api.Controllers.Core
             try
             {
                 if (!notifications.Any())
-                {
                     return Ok(new { success = true, data = result });
-                }
                 else
-                {
                     return BadRequest(new { success = false, errors = notifications });
-                }
             }
             catch (Exception ex)
             {
