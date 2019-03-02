@@ -36,8 +36,12 @@ namespace PartnerGroup.Domain.Shared.SqlExtensions
 
         private static IDbCommand CreateCommandWithParameters(IDbCommand command, object @params)
         {
+            string[] properties;
             PropertyInfo[] propsProperties = @params.GetType().GetProperties();
-            string[] properties = propsProperties.Select(p => p.Name).ToArray();
+            if (@params.GetType().FullName.Contains("BrandEntity"))
+                properties = propsProperties.Select(p => p.Name).ToArray();
+            else
+                properties = propsProperties.Where(x => x.Name != "Brand").Select(p => p.Name).ToArray();
 
             foreach (var property in properties)
             {

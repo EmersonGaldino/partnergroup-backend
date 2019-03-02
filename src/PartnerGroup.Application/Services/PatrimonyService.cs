@@ -66,12 +66,44 @@ namespace PartnerGroup.Application.Services
 
         public PatrimonyDto UpdatePatrimony(long id, PatrimonyCommand command)
         {
-            throw new System.NotImplementedException();
+            if (!command.Validate())
+            {
+                AddNotifications(command.Notifications);
+                return null;
+            }
+
+            var verifyBrand = _repositoryBrand.GetById(command.BrandId);
+            var patrimony = _repositoryPatrimony.PatrimonyById(id);
+            Assert.AssertArgumentNotNull(verifyBrand, "Nenhuma marca encontrada!");
+            Assert.AssertArgumentNotNull(patrimony, "Nenhum patrimônio encontrado!");
+
+            if (!Assert.IsValid())
+            {
+                AddNotifications(Assert.ListNotifications());
+                return null;
+            }
+
+            patrimony.Update(verifyBrand.Id, command.Name, command.Description);
+            _repositoryPatrimony.Update(patrimony);
+
+            var updatePatrimony = _repositoryPatrimony.PatrimonyById(id);
+            return updatePatrimony.ToDto();
         }
 
         public PatrimonyDto DeletePatrimony(long id)
         {
-            throw new System.NotImplementedException();
+            var patrimony = _repositoryPatrimony.PatrimonyById(id);
+            Assert.AssertArgumentNotNull(patrimony, "Nenhum patrimônio encontrado!");
+
+            if (!Assert.IsValid())
+            {
+                AddNotifications(Assert.ListNotifications());
+                return null;
+            }
+
+            _repositoryPatrimony.Remove(patrimony.Id);
+
+            return patrimony.ToDto();
         }
     }
 }

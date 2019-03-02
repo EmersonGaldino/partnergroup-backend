@@ -8,7 +8,10 @@ namespace PartnerGroup.Domain.Shared.SqlExtensions
         public static string InsertQuery(string tableName, object item)
         {
             PropertyInfo[] props = item.GetType().GetProperties();
-            props = props.Where(x => !x.CustomAttributes.Any() && x.Name != "Brand").ToArray();
+            if (item.GetType().FullName.Contains("BrandEntity"))
+                props = props.Where(x => !x.CustomAttributes.Any()).ToArray();
+            else
+                props = props.Where(x => !x.CustomAttributes.Any() && x.Name != "Brand").ToArray();
 
             string[] columns = props.Select(p => p.Name).Where(s => s != "Id").ToArray();
 
@@ -19,7 +22,10 @@ namespace PartnerGroup.Domain.Shared.SqlExtensions
         public static string UpdateQuery(string tableName, object item)
         {
             PropertyInfo[] props = item.GetType().GetProperties();
-            props = props.Where(x => !x.CustomAttributes.Any() && x.Name != "Brand").ToArray();
+            if (item.GetType().FullName.Contains("BrandEntity"))
+                props = props.Where(x => !x.CustomAttributes.Any()).ToArray();
+            else
+                props = props.Where(x => !x.CustomAttributes.Any() && x.Name != "Brand").ToArray();
 
             string[] columns = props.Select(p => p.Name).Where(s => s != "Id").ToArray();
             var parameters = columns.Select(name => name + "=@" + name).ToList();

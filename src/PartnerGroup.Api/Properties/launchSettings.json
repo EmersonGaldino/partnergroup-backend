@@ -15,7 +15,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONNECTION_STRING": "Data Source=localhost,1433;Initial Catalog=PartnerGroup;User Id=sa;Password=@stefany@1994;",
+        "CONNECTION_STRING": "Data Source=localhost,11433;Initial Catalog=PartnerGroup;User Id=sa;Password=@stefany@1994;",
         "CLIENT_ID": "QWNjb3VudCAtIEphaWx0b24gSnVuaW9y"
       }
     },

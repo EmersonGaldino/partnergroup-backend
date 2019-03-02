@@ -17,7 +17,8 @@ namespace PartnerGroup.DataAccess.Repositories
         {
             PatrimonyEntity patrimony = null;
             var command = _connection.CreateCommand();
-            command.CommandText = PatrimonyQuery.Patrimonies;
+            command.CommandText = PatrimonyQuery.PatrimonyById;
+            command.Parameters.Add(new SqlParameter("@Id", id));
 
             if (_connection.State != ConnectionState.Open)
                 command.Connection.Open();
