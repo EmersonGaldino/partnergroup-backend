@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using PartnerGroup.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using PartnerGroup.IoC.NativeInjector;
@@ -40,6 +41,7 @@ namespace PartnerGroup.Api
                 x.AllowAnyOrigin();
             });
 
+            app.UseClientId();
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Partner Group - V1"); });
