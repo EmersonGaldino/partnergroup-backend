@@ -41,7 +41,6 @@ namespace PartnerGroup.Api
                 x.AllowAnyOrigin();
             });
 
-            app.UseClientId();
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Partner Group - V1"); });
